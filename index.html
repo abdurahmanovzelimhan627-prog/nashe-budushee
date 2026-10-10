@@ -285,6 +285,10 @@
   .check { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.45; color: var(--ink-soft); cursor: pointer; }
   .check input { width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: var(--blue); cursor: pointer; }
   .check a { color: var(--blue); font-weight: 700; }
+  .form-step { font-weight: 800; font-size: 15.5px; color: var(--ink); }
+  .form-fields { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 16px; transition: opacity .2s ease; }
+  .form-fields:disabled { opacity: .45; }
+  .form-fields:disabled input, .form-fields:disabled select, .form-fields:disabled textarea { cursor: not-allowed; }
   .form .btn { width: 100%; }
   .form .btn.is-off { opacity: .45; box-shadow: none; }
   .form .btn.is-off:hover { transform: none; }
@@ -636,6 +640,11 @@
         </ul>
       </div>
       <form class="form" id="requestForm" novalidate>
+        <p class="form-step">Сначала отметьте согласия, после этого откроются поля заявки.</p>
+        <label class="check"><input type="checkbox" id="reqPolicy"><span>Ознакомлен(а) с <a href="privacy.html" target="_blank">политикой конфиденциальности</a></span></label>
+        <label class="check"><input type="checkbox" id="reqAgree"><span>Согласен(на) на <a href="consent.html" target="_blank">обработку персональных данных</a></span></label>
+        <label class="check"><input type="checkbox" id="reqAds"><span>Согласен(на) получать <a href="ads-consent.html" target="_blank">сообщения об акциях и новостях центра</a>. Необязательно</span></label>
+        <fieldset class="form-fields" id="reqFields" disabled>
         <div class="form-row">
           <div class="field"><label for="reqName">Ваше имя</label><input type="text" id="reqName" autocomplete="name" placeholder="Как к вам обращаться"></div>
           <div class="field"><label for="reqPhone">Телефон</label><input type="tel" id="reqPhone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__"></div>
@@ -647,8 +656,7 @@
           </select>
         </div>
         <div class="field"><label for="reqComment">Комментарий, если хотите</label><textarea id="reqComment" rows="3" placeholder="Возраст ребёнка, удобное время, ваш вопрос"></textarea></div>
-        <label class="check"><input type="checkbox" id="reqAgree"><span>Согласен(на) на <a href="consent.html" target="_blank">обработку персональных данных</a> и ознакомлен(а) с <a href="privacy.html" target="_blank">политикой конфиденциальности</a></span></label>
-        <label class="check"><input type="checkbox" id="reqAds"><span>Согласен(на) получать <a href="ads-consent.html" target="_blank">сообщения об акциях и новостях центра</a>. Необязательно</span></label>
+        </fieldset>
         <p class="form-err" id="formErr" role="alert" hidden>Укажите, пожалуйста, имя и телефон.</p>
         <a class="btn btn-wa" id="waLink" href="https://wa.me/79380199080" target="_blank" rel="noopener"><svg class="icon fill"><use href="#i-wa"/></svg>Отправить в WhatsApp</a>
         <p class="form-hint">Откроется WhatsApp с готовым сообщением, останется нажать «Отправить». Сайт ничего не сохраняет: ваши данные попадают только в это сообщение.</p>
@@ -733,12 +741,14 @@
     if (phone) lines.push('Телефон: ' + phone);
     if (spec) lines.push('Специалист: ' + spec);
     if (note) lines.push('Комментарий: ' + note);
+    if ($('reqPolicy').checked) lines.push('С политикой конфиденциальности ознакомлен(а): да');
     if ($('reqAgree').checked) lines.push('Согласие на обработку персональных данных: да');
     if ($('reqAds').checked) lines.push('Согласие на сообщения об акциях и новостях: да');
     return encodeURIComponent(lines.join('\n'));
   }
   function refresh() {
-    var ok = $('reqAgree').checked;
+    var ok = $('reqPolicy').checked && $('reqAgree').checked;
+    $('reqFields').disabled = !ok;
     link.classList.toggle('is-off', !ok);
     link.setAttribute('aria-disabled', String(!ok));
     link.href = ok ? WA + waText() : '#contacts';
@@ -746,18 +756,18 @@
   $('requestForm').addEventListener('input', function () { refresh(); err.hidden = true; });
   $('requestForm').addEventListener('submit', function (e) { e.preventDefault(); });
   link.addEventListener('click', function (e) {
+    if (!$('reqPolicy').checked || !$('reqAgree').checked) {
+      e.preventDefault();
+      err.textContent = 'Отметьте две обязательные галочки вверху формы.';
+      err.hidden = false;
+      ($('reqPolicy').checked ? $('reqAgree') : $('reqPolicy')).focus();
+      return;
+    }
     if (!$('reqName').value.trim() || !$('reqPhone').value.trim()) {
       e.preventDefault();
       err.textContent = 'Укажите, пожалуйста, имя и телефон.';
       err.hidden = false;
       ($('reqName').value.trim() ? $('reqPhone') : $('reqName')).focus();
-      return;
-    }
-    if (!$('reqAgree').checked) {
-      e.preventDefault();
-      err.textContent = 'Отметьте согласие на обработку персональных данных.';
-      err.hidden = false;
-      $('reqAgree').focus();
       return;
     }
     refresh();
