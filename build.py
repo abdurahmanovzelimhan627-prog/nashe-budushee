@@ -53,5 +53,50 @@ full_title = head_part.replace('<title>Наше Будущее</title>', '<title
 with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as f:
     f.write(HEAD + full_title + '</head>\n<body>\n' + body_part + '\n</body>\n</html>\n')
 
+# Хостинг: шрифты лежат рядом с сайтом, без обращения к серверам Google
+import shutil
+FONT_LINKS = re.compile(r'<link rel="preconnect"[^>]*>\n<link rel="preconnect"[^>]*>\n<link rel="stylesheet" href="https://fonts.googleapis.com[^>]*>')
+index_path = os.path.join(ROOT, 'index.html')
+with open(index_path, encoding='utf-8') as f:
+    html = f.read()
+assert FONT_LINKS.search(html)
+html = FONT_LINKS.sub('<link rel="stylesheet" href="fonts/fonts.css">', html)
+with open(index_path, 'w', encoding='utf-8') as f:
+    f.write(html)
+
+# Юридические страницы
+LEGAL_CSS = '''<style>
+  :root { --paper:#FAFCFF; --card:#FFFFFF; --ink:#15244D; --ink-soft:#4A5779; --blue:#1D49B8; --orange-ink:#B8420A; --line:rgba(21,36,77,.13); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Nunito','Segoe UI',system-ui,sans-serif; font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .top { border-bottom: 1px solid var(--line); background: var(--card); }
+  .top div, main, footer { max-width: 780px; margin: 0 auto; padding-inline: 20px; }
+  .top div { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 76px; }
+  .top img { height: 54px; width: auto; display: block; }
+  .top a.back { font-weight: 800; color: var(--blue); text-decoration: none; }
+  main { padding-block: 40px 56px; }
+  h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.15; font-weight: 900; margin: 0 0 8px; text-wrap: balance; }
+  h2 { font-size: 21px; font-weight: 800; margin: 34px 0 10px; }
+  p { margin: 0 0 12px; }
+  ul { margin: 0 0 12px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .rev { color: var(--ink-soft); font-size: 15px; margin-bottom: 26px; }
+  a { color: var(--blue); }
+  footer { padding-block: 22px 40px; border-top: 1px solid var(--line); font-size: 14.5px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  footer a { color: var(--ink-soft); }
+</style>'''
+LEGAL = {'privacy.html': 'Политика конфиденциальности', 'consent.html': 'Согласие на обработку персональных данных', 'ads-consent.html': 'Согласие на рекламные сообщения'}
+for fname, title in LEGAL.items():
+    with open(os.path.join(ROOT, 'src', 'legal', fname), encoding='utf-8') as f:
+        body = f.read()
+    links = ''.join('<a href="%s">%s</a>' % (n, t) for n, t in LEGAL.items() if n != fname)
+    doc = ('<!DOCTYPE html>\n<html lang="ru">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+           '<title>%s — Наше Будущее</title>\n<link rel="stylesheet" href="fonts/fonts.css">\n%s\n</head>\n<body>\n'
+           '<header class="top"><div><a href="index.html" aria-label="На главную"><img src="assets/logo.png" alt="Наше Будущее" width="411" height="183"></a>'
+           '<a class="back" href="index.html">← На сайт</a></div></header>\n<main>\n%s</main>\n'
+           '<footer><span>© 2026 Центр «Наше Будущее»</span>%s</footer>\n</body>\n</html>\n') % (title, LEGAL_CSS, body, links)
+    with open(os.path.join(ROOT, fname), 'w', encoding='utf-8') as f:
+        f.write(doc)
+
 for name in ('index.html', os.path.join('artifact', 'page.html')):
     print(name, round(os.path.getsize(os.path.join(ROOT, name)) / 1024), 'KB')

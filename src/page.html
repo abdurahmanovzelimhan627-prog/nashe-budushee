@@ -272,7 +272,12 @@
   .field input::placeholder, .field textarea::placeholder { color: #6B7694; }
   .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--blue); }
   .field textarea { resize: vertical; min-height: 96px; }
+  .check { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.45; color: var(--ink-soft); cursor: pointer; }
+  .check input { width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: var(--blue); cursor: pointer; }
+  .check a { color: var(--blue); font-weight: 700; }
   .form .btn { width: 100%; }
+  .form .btn.is-off { opacity: .45; box-shadow: none; }
+  .form .btn.is-off:hover { transform: none; }
   .form-err { color: #B3261E; font-weight: 800; font-size: 15px; }
   .form-hint { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
 
@@ -281,6 +286,9 @@
   .foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; color: var(--ink-soft); font-size: 15px; }
   .foot img { height: 50px; width: auto; }
   .foot .hand { font-size: 26px; color: var(--orange-ink); }
+  .foot-legal { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 20px; padding-top: 18px; border-top: 1px dashed var(--line); font-size: 14.5px; }
+  .foot-legal a { color: var(--ink-soft); }
+  .foot-legal a:hover { color: var(--blue); }
 
   .wa-float { position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 45; display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 20px 10px 16px; border-radius: 999px; background: var(--wa); color: #fff; font-weight: 800; text-decoration: none; box-shadow: 0 16px 30px -14px rgba(14,122,62,.9); transition: transform .18s ease; }
   .wa-float:hover { transform: translateY(-3px) rotate(-2deg); }
@@ -627,6 +635,8 @@
           </select>
         </div>
         <div class="field"><label for="reqComment">Комментарий, если хотите</label><textarea id="reqComment" rows="3" placeholder="Возраст ребёнка, удобное время, ваш вопрос"></textarea></div>
+        <label class="check"><input type="checkbox" id="reqAgree"><span>Согласен(на) на <a href="consent.html" target="_blank">обработку персональных данных</a> и ознакомлен(а) с <a href="privacy.html" target="_blank">политикой конфиденциальности</a></span></label>
+        <label class="check"><input type="checkbox" id="reqAds"><span>Согласен(на) получать <a href="ads-consent.html" target="_blank">сообщения об акциях и новостях центра</a>. Необязательно</span></label>
         <p class="form-err" id="formErr" role="alert" hidden>Укажите, пожалуйста, имя и телефон.</p>
         <a class="btn btn-wa" id="waLink" href="https://wa.me/79380199080" target="_blank" rel="noopener"><svg class="icon fill"><use href="#i-wa"/></svg>Отправить в WhatsApp</a>
         <p class="form-hint">Откроется WhatsApp с готовым сообщением, останется нажать «Отправить». Сайт ничего не сохраняет: ваши данные попадают только в это сообщение.</p>
@@ -641,6 +651,11 @@
     <span class="hand">Сегодня · Завтра · Всегда</span>
     <span>© 2026 Центр «Наше Будущее», г. Гудермес, пр-т А. Кадырова, 29</span>
   </div>
+  <nav class="wrap" aria-label="Документы"><div class="foot-legal">
+    <a href="privacy.html">Политика конфиденциальности</a>
+    <a href="consent.html">Согласие на обработку персональных данных</a>
+    <a href="ads-consent.html">Согласие на рекламные сообщения</a>
+  </div></nav>
 </footer>
 
 <a class="wa-float" href="https://wa.me/79380199080?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%20%D1%80%D0%B5%D0%B1%D1%91%D0%BD%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8E." target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg class="icon fill"><use href="#i-wa"/></svg><span>Написать</span></a>
@@ -706,16 +721,31 @@
     if (phone) lines.push('Телефон: ' + phone);
     if (spec) lines.push('Специалист: ' + spec);
     if (note) lines.push('Комментарий: ' + note);
+    if ($('reqAgree').checked) lines.push('Согласие на обработку персональных данных: да');
+    if ($('reqAds').checked) lines.push('Согласие на сообщения об акциях и новостях: да');
     return encodeURIComponent(lines.join('\n'));
   }
-  function refresh() { link.href = WA + waText(); }
+  function refresh() {
+    var ok = $('reqAgree').checked;
+    link.classList.toggle('is-off', !ok);
+    link.setAttribute('aria-disabled', String(!ok));
+    link.href = ok ? WA + waText() : '#contacts';
+  }
   $('requestForm').addEventListener('input', function () { refresh(); err.hidden = true; });
   $('requestForm').addEventListener('submit', function (e) { e.preventDefault(); });
   link.addEventListener('click', function (e) {
     if (!$('reqName').value.trim() || !$('reqPhone').value.trim()) {
       e.preventDefault();
+      err.textContent = 'Укажите, пожалуйста, имя и телефон.';
       err.hidden = false;
       ($('reqName').value.trim() ? $('reqPhone') : $('reqName')).focus();
+      return;
+    }
+    if (!$('reqAgree').checked) {
+      e.preventDefault();
+      err.textContent = 'Отметьте согласие на обработку персональных данных.';
+      err.hidden = false;
+      $('reqAgree').focus();
       return;
     }
     refresh();
