@@ -1,0 +1,16 @@
+DirectoryIndex index.php index.html
+Options -Indexes
+AddDefaultCharset UTF-8
+
+# Служебные файлы наружу не отдаём
+<FilesMatch "^(\.git.*|.*\.md|.*\.py)$">
+    Require all denied
+</FilesMatch>
+RedirectMatch 404 ^/\.git
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
