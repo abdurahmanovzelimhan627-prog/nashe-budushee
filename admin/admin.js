@@ -134,7 +134,7 @@
 
   /* ---------- Вкладки ---------- */
   var TABS = [
-    { id: 'services', title: 'Услуги', list: 'services', noun: 'услугу', name: 'title',
+    { id: 'services', anchor: 'directions', title: 'Услуги', list: 'services', noun: 'услугу', name: 'title',
       hint: 'Карточки в разделе «С чем к нам приходят». Эти же названия попадают в список «Специалист» в форме заявки.',
       blank: function () { return { title: '', text: '', icon: 'star', price: '', price_note: 'занятие', people: [] }; },
       fields: function (it, re) { return [
@@ -144,7 +144,7 @@
         field('Подпись к цене', textInput(it, 'price_note', 'занятие'), 'Например: занятие, детский приём'),
         field('Значок', iconInput(it, 'icon')),
         field('Кто ведёт', peopleInput(it, 'people'))]; } },
-    { id: 'prices', title: 'Цены', list: 'prices', noun: 'карточку цен', name: 'title',
+    { id: 'prices', anchor: 'prices', title: 'Цены', list: 'prices', noun: 'карточку цен', name: 'title',
       hint: 'Карточки в разделе «Сколько стоят занятия». Первая карточка показывается широкой.',
       blank: function () { return { title: '', tags: [], rows: [{ label: 'Разовое занятие', value: '' }, { label: 'Абонемент', value: '' }] }; },
       fields: function (it, re) { return [
@@ -152,7 +152,7 @@
         field('Что входит', linesInput(it, 'tags'), 'Каждое направление с новой строки'),
         field('Строки с ценами', rowsInput(it, 'rows'))]; },
       after: function () { return h('div', { class: 'card' }, field('Примечание под ценами', areaInput(C.texts, 'price_note', 2))); } },
-    { id: 'people', title: 'Специалисты', list: 'people', noun: 'специалиста', name: 'name',
+    { id: 'people', anchor: 'team', title: 'Специалисты', list: 'people', noun: 'специалиста', name: 'name',
       hint: 'Первые трое показываются на первом экране сайта. Порядок меняется стрелками.',
       blank: function () { return { id: '', name: '', role: '', exp: '', about: '', photo: '', poster: '' }; },
       fields: function (it, re) { return [
@@ -162,21 +162,21 @@
         field('Должность', textInput(it, 'role')),
         field('Стаж, коротко', textInput(it, 'exp', '11 лет стажа')),
         field('Подпись в карточке', textInput(it, 'about'), 'Полная строка под плакатом')]; } },
-    { id: 'reviews', title: 'Отзывы', list: 'reviews', noun: 'отзыв', name: 'alt',
+    { id: 'reviews', anchor: 'reviews', title: 'Отзывы', list: 'reviews', noun: 'отзыв', name: 'alt',
       hint: 'Скриншоты отзывов. Перед публикацией убедитесь, что автор не против, или закройте имена на скриншоте.',
       blank: function () { return { img: '', alt: '' }; },
       fields: function (it) { return [
         field('Скриншот', imageInput(it, 'img', 'review')),
         field('О чём отзыв', areaInput(it, 'alt', 3), 'Короткое описание для поиска и незрячих. Отзыв без скриншота не сохранится.')]; } },
-    { id: 'faq', title: 'Вопросы', list: 'faq', noun: 'вопрос', name: 'q',
+    { id: 'faq', anchor: 'faq', title: 'Вопросы', list: 'faq', noun: 'вопрос', name: 'q',
       hint: 'Раздел «Вопросы родителей». Первый вопрос показывается раскрытым.',
       blank: function () { return { q: '', a: '' }; },
       fields: function (it, re) { return [field('Вопрос', textInput(it, 'q', '', re)), field('Ответ', areaInput(it, 'a', 3))]; } },
-    { id: 'steps', title: 'Шаги', list: 'steps', noun: 'шаг', name: 'title',
+    { id: 'steps', anchor: 'how', title: 'Шаги', list: 'steps', noun: 'шаг', name: 'title',
       hint: 'Раздел «Как проходит знакомство с центром». Лучше всего смотрятся 4 шага.',
       blank: function () { return { title: '', text: '' }; },
       fields: function (it, re) { return [field('Заголовок', textInput(it, 'title', '', re)), field('Текст', areaInput(it, 'text', 2))]; } },
-    { id: 'contacts', title: 'Контакты и тексты', hint: 'Телефон используется и для звонков, и для всех кнопок WhatsApp на сайте.',
+    { id: 'contacts', anchor: 'contacts', title: 'Контакты и тексты', hint: 'Телефон используется и для звонков, и для всех кнопок WhatsApp на сайте.',
       single: function () { return [
         h('div', { class: 'card grid' },
           field('Телефон', textInput(C.contacts, 'phone', '+7 (900) 000-00-00')),
@@ -242,7 +242,7 @@
   function renderTab() {
     var t = TABS.filter(function (x) { return x.id === tab; })[0];
     tabsEl.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === tab)); });
-    bodyEl.replaceChildren(h('p', { class: 'hint', text: t.hint }), t.list ? listView(t) : h('div', { class: 'list' }, t.single()));
+    bodyEl.replaceChildren(h('p', { class: 'hint' }, t.hint + ' ', t.anchor ? h('a', { href: '../#' + t.anchor, target: '_blank', rel: 'noopener', text: 'Показать этот раздел на сайте' }) : null), t.list ? listView(t) : h('div', { class: 'list' }, t.single()));
   }
   function save() {
     saveBtn.disabled = true;
