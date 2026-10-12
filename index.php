@@ -55,6 +55,17 @@ $jsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JS
 <meta property="og:locale" content="ru_RU">
 <meta property="og:title" content="Наше Будущее — центр развития детей в Гудермесе">
 <meta property="og:description" content="<?= e($texts['hero_sub'] ?? '') ?>">
+<?php
+$siteBase = isset($_SERVER['HTTP_HOST'])
+    ? ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/'
+    : 'https://abdurahmanovzelimhan627-prog.github.io/nashe-budushee/';
+?>
+<meta property="og:site_name" content="Наше Будущее">
+<meta property="og:url" content="<?= e($siteBase) ?>">
+<meta property="og:image" content="<?= e($siteBase) ?>assets/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FAFCFF">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231D49B8'/%3E%3Cpath d='M12 4l2 5.400 5.700.4-4.400 3.600 1.500 5.600L12 15.800 7.200 19l1.500-5.600L4.300 9.800l5.700-.4z' fill='%23FFC93C'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="fonts/fonts.css">
