@@ -82,6 +82,33 @@
             "about": "Педагог-психолог, нейропсихолог · психолог 2 года, нейропсихолог 1 год",
             "photo": "uploads/face_dakaeva.jpg",
             "poster": "uploads/poster_dakaeva.jpg"
+        },
+        {
+            "id": "umarova",
+            "name": "Марха Умарова",
+            "role": "Детский психолог",
+            "exp": "5 лет стажа",
+            "about": "Детский психолог · стаж 5 лет",
+            "photo": "uploads/face_umarova.jpg",
+            "poster": "uploads/poster_umarova.jpg"
+        },
+        {
+            "id": "isaeva",
+            "name": "Линда Исаева",
+            "role": "Педагог, специалист по сенсорной интеграции",
+            "exp": "",
+            "about": "Педагог, специалист по сенсорной интеграции",
+            "photo": "uploads/face_isaeva.jpg",
+            "poster": "uploads/poster_isaeva.jpg"
+        },
+        {
+            "id": "boshkhadzhieva",
+            "name": "Руми Бошхаджиева",
+            "role": "Врач-остеопат",
+            "exp": "5 лет стажа",
+            "about": "Врач-остеопат · стаж 5 лет",
+            "photo": "uploads/face_boshkhadzhieva.jpg",
+            "poster": "uploads/poster_boshkhadzhieva.jpg"
         }
     ],
     "services": [
@@ -119,7 +146,9 @@
             "icon": "heart",
             "price": "1 000 ₽",
             "price_note": "занятие",
-            "people": []
+            "people": [
+                "umarova"
+            ]
         },
         {
             "title": "Нейропсихолог",
@@ -160,7 +189,8 @@
             "price": "1 000 ₽",
             "price_note": "занятие",
             "people": [
-                "shavaeva"
+                "shavaeva",
+                "isaeva"
             ]
         },
         {
@@ -170,7 +200,8 @@
             "price": "2 500 ₽",
             "price_note": "детский приём",
             "people": [
-                "irizieva"
+                "irizieva",
+                "boshkhadzhieva"
             ]
         },
         {
