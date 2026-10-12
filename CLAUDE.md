@@ -16,9 +16,9 @@
 
 ## Где что живёт
 - GitHub: abdurahmanovzelimhan627-prog/nashe-budushee, ветка main.
-- Демо: https://abdurahmanovzelimhan627-prog.github.io/nashe-budushee/ (статика).
+- Основной адрес сайта-визитки: https://nashe-budushee.com (GitHub Pages, бесплатно, https работает). Старая ссылка github.io редиректит сюда.
+- Домен nashe-budushee.com куплен 12.10.2026 в Beget на Тамагова Адама, 1 год (1 490 ₽), автопродление ВЫКЛЮЧЕНО: продлить до октября 2027. DNS ведётся в Beget (4 записи A на GitHub, www CNAME на abdurahmanovzelimhan627-prog.github.io).
 - Рабочий сайт: Beget, тариф Blog, `http://tamago5x.beget.tech` (папка `tamago5x.beget.tech/public_html`). https на техническом адресе невозможен, нужен свой домен.
-- Домен: `nashe-budushee.ru`, владелец другой человек, регистрация ещё не сделана.
 
 ## Правила, которые нельзя нарушать
 - В архивы для хостинга не класть `data/config.php`, `data/login.json`, `data/backups/`, а также не перезаписывать `data/content.json` и `uploads/` на хостинге: там правки владельца из админки, новее, чем в git.
@@ -28,8 +28,11 @@
 - Волосы специалисток под платком на фото затемнены и размыты (Цагаева, Кадырова, Газиева). Исходники в git до коммита b15334e.
 
 ## Что осталось (актуальный статус смотри в ДЕПЛОЙ.md)
-1. Загрузить на Beget: видео и правки первого экрана, обработанные фото (`деплой/uploads-blur.zip`).
-2. Зарегистрировать домен, прикрепить к сайту, включить SSL (Let's Encrypt).
+1. Хостинг Beget больше не обязателен (сайт-визитка живёт на GitHub Pages). Решить: не продлевать тариф Blog после пробных 30 дней (до ~11.11.2026).
+2. Проверить, что https://www.nashe-budushee.com тоже открывается (сертификат на www GitHub выпускает позже).
 3. Скачать с хостинга свежие `data/content.json` и `uploads/` и закоммитить.
 4. Реквизиты ИП/ООО в `privacy.html`, `consent.html`, `ads-consent.html`, когда появятся.
 5. Фото нового специалиста, добавленного через админку на хостинге, обработать так же, если видны волосы.
+
+## Идея на будущее
+Админка без сервера: страница /admin/ на GitHub Pages, правит data/content.json через GitHub API (токен), сборка index.html из index.php через GitHub Actions. Пока не сделано, правки вносит Claude.
