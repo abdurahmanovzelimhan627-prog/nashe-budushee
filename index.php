@@ -58,7 +58,7 @@ $jsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JS
 <?php
 $siteBase = isset($_SERVER['HTTP_HOST'])
     ? ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/'
-    : 'https://abdurahmanovzelimhan627-prog.github.io/nashe-budushee/';
+    : 'https://nashe-budushee.com/';
 ?>
 <meta property="og:site_name" content="Наше Будущее">
 <meta property="og:url" content="<?= e($siteBase) ?>">
