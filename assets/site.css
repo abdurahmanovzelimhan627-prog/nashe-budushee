@@ -122,6 +122,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .note small { display: block; margin-top: 8px; font-family: var(--font); font-size: 14px; font-weight: 700; color: var(--ink-soft); }
 
 .collage { position: relative; width: 100%; max-width: 520px; margin: 0 auto 28px; aspect-ratio: 1 / 1.04; }
+.collage-video { max-width: 370px; aspect-ratio: 540 / 820; }
+.hero-video { display: block; width: 100%; height: 100%; object-fit: cover; background: var(--sky); border: 6px solid var(--card); border-radius: 46px 62px 50px 66px; box-shadow: var(--shadow); }
+.collage-video .s1 { left: -5%; top: 70%; }
+.collage-video .s2 { right: -4%; top: 4%; }
 .face { background-size: cover; background-position: center; background-color: var(--sky); }
 .collage .face { position: absolute; border: 6px solid var(--card); box-shadow: var(--shadow); animation: float 7s ease-in-out infinite; }
 .c1 { width: 60%; aspect-ratio: 1; right: 2%; top: 0; border-radius: var(--blob-a); }

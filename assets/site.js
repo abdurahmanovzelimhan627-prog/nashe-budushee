@@ -9,6 +9,14 @@
   burger.addEventListener('click', function () { setMenu(menu.hidden); });
   menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
 
+  // Видео на первом экране: без автозапуска, если в системе отключена анимация
+  var heroVideo = document.querySelector('.hero-video');
+  if (heroVideo && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroVideo.removeAttribute('autoplay');
+    heroVideo.pause();
+    heroVideo.controls = true;
+  }
+
   // Карточка специалиста
   var sheet = $('sheet');
   document.addEventListener('click', function (e) {

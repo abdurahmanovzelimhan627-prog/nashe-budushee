@@ -107,18 +107,11 @@ $jsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JS
         <div class="note hand"><?= e($texts['hero_note']) ?><small>Так мы работаем в «Нашем Будущем»</small></div>
 <?php endif; ?>
       </div>
-<?php if ($people): ?>
-      <div class="collage" aria-label="Специалисты центра">
-<?php foreach (array_slice($people, 0, 3) as $i => $p): ?>
-        <div class="face c<?= $i + 1 ?>" <?= $face($p) ?> role="img" aria-label="<?= e($p['name'] . ', ' . $p['role']) ?>"></div>
-<?php endforeach; ?>
-<?php foreach (array_slice($people, 0, 3) as $i => $p): ?>
-        <span class="tag hand t<?= $i + 1 ?>"><?= e($firstName($p)) ?><b><?= e($p['exp'] ?: $p['role']) ?></b></span>
-<?php endforeach; ?>
+      <div class="collage collage-video">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="<?= asset('assets/hero.jpg') ?>" aria-label="Занятия с детьми в центре «Наше Будущее»"><source src="<?= asset('assets/hero.mp4') ?>" type="video/mp4"></video>
         <span class="star s1" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg></span>
         <span class="star s2" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg></span>
       </div>
-<?php endif; ?>
     </div>
   </section>
 
