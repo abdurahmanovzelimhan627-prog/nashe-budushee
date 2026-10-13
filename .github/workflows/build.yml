@@ -1,0 +1,58 @@
+name: Пересобрать страницу сайта
+
+# Когда меняется содержимое (data/content.json) или шаблон, собираем index.html из index.php
+# и просим GitHub Pages обновить сайт. Работает бесплатно, сервер не нужен.
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/content.json
+      - index.php
+      - inc/**
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: build-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: PHP
+        run: command -v php >/dev/null || (sudo apt-get update -qq && sudo apt-get install -y -qq php-cli)
+
+      - name: Собрать index.html
+        run: |
+          php index.php > index.html.new
+          test -s index.html.new
+          # Номер версии файлов в адресах (?v=...) не считаем изменением
+          if diff -q <(sed -E 's/\?v=[0-9]+//g' index.html) <(sed -E 's/\?v=[0-9]+//g' index.html.new) >/dev/null; then
+            echo "Страница не изменилась"; rm index.html.new
+          else
+            mv index.html.new index.html
+          fi
+
+      - name: Записать и обновить сайт
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -n "$(git status --porcelain index.html)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "Пересборка страницы из содержимого"
+            git pull --rebase origin main
+            git push origin main
+            gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null && echo "Сборка сайта запущена"
+          else
+            echo "Нечего обновлять"
+          fi

@@ -24,6 +24,7 @@
     return s;
   }
   function api(action, body, isForm) {
+    if (B.static) return window.STATIC_ADMIN.api(action, isForm ? body : (body || {}), isForm);
     var headers = { 'X-CSRF': B.csrf };
     if (!isForm) headers['Content-Type'] = 'application/json';
     return fetch('?action=' + action, { method: 'POST', headers: headers, body: isForm ? body : JSON.stringify(body || {}) })
@@ -32,7 +33,7 @@
 
   /* ---------- Вход ---------- */
   function loginView() {
-    var pass = h('input', { type: 'password', id: 'pass', autocomplete: 'current-password', placeholder: 'Пароль' });
+    var pass = h('input', { type: 'password', id: 'pass', autocomplete: 'current-password', placeholder: B.static ? 'Ключ доступа' : 'Пароль' });
     var msg = h('p', { class: 'msg err', hidden: true });
     var form = h('form', { class: 'login', onsubmit: function (e) {
       e.preventDefault();
@@ -42,7 +43,9 @@
       h('img', { src: '../assets/logo.png', alt: 'Наше Будущее', width: 411, height: 183 }),
       h('h1', { text: 'Вход в админку' }),
       B.ready ? null : h('p', { class: 'msg err', text: 'Админка ещё не настроена: нет файла с паролем.' }),
-      h('label', { for: 'pass', text: 'Пароль' }), pass, msg,
+      B.static ? h('p', { class: 'hint', text: 'Вставьте ключ доступа, который вам выдали. Он хранится только в этом браузере.' }) : null,
+      h('label', { for: 'pass', text: B.static ? 'Ключ доступа' : 'Пароль' }), pass,
+      B.error ? h('p', { class: 'msg err', text: B.error }) : null, msg,
       h('button', { class: 'btn main', type: 'submit', text: 'Войти' }));
     app.replaceChildren(form);
     pass.focus();
@@ -105,7 +108,7 @@
           .catch(function (er) { draw(er.message, true); });
       } });
       box.replaceChildren(
-        obj[key] ? h('img', { src: '../' + obj[key], alt: '' }) : h('div', { class: 'empty', text: 'Нет фото' }),
+        obj[key] ? h('img', { src: (B.static && window.STATIC_ADMIN.previews[obj[key]]) || '../' + obj[key], alt: '' }) : h('div', { class: 'empty', text: 'Нет фото' }),
         h('div', { class: 'image-actions' },
           h('button', { class: 'btn', type: 'button', text: obj[key] ? 'Заменить фото' : 'Загрузить фото', onclick: function () { file.click(); } }),
           obj[key] ? h('button', { class: 'btn ghost', type: 'button', text: 'Убрать', onclick: function () { obj[key] = ''; touch(); draw(); } }) : null,
@@ -189,6 +192,8 @@
     { id: 'password', title: 'Пароль', hint: 'Смена пароля для входа в админку. Не короче 10 символов.', single: passwordForm }
   ];
 
+  if (B.static) TABS = TABS.filter(function (t) { return t.id !== 'password'; });
+
   function passwordForm() {
     var oldP = h('input', { type: 'password', autocomplete: 'current-password' }), newP = h('input', { type: 'password', autocomplete: 'new-password' });
     var msg = h('p', { class: 'msg', hidden: true });
@@ -249,7 +254,7 @@
     renderStatus('Сохраняю…');
     api('save', { content: C }).then(function (r) {
       C = r.content; dirty = false; renderTab();
-      renderStatus('Сохранено в ' + new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + '. Изменения уже на сайте.', 'ok');
+      renderStatus('Сохранено в ' + new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + (B.static ? '. На сайте изменения появятся через 1–3 минуты.' : '. Изменения уже на сайте.'), 'ok');
     }).catch(function (er) { renderStatus(er.message, 'err'); saveBtn.disabled = false; });
   }
   function mainView() {
