@@ -12,7 +12,8 @@
 - PHP-сайт без базы: `index.php` (страница), `admin/` (админка), `data/content.json` (всё содержимое), `uploads/` (фото), `assets/` (стили, скрипт, логотип, видео первого экрана), `inc/` (служебное).
 - Форма заявки ничего не отправляет на сервер: открывает WhatsApp с готовым текстом.
 - Инструкция для владельца: `ИНСТРУКЦИЯ.md`. План выкладки и статус: `ДЕПЛОЙ.md`.
-- `index.html` в корне нужен только для GitHub Pages (статичный слепок). Админка и пересборка там не работают.
+- `index.html` в корне нужен для GitHub Pages: он собирается из `index.php` командой `php index.php > index.html`. Автоматически: GitHub Action `.github/workflows/build.yml` пересобирает его при изменении `data/content.json`, `index.php`, `inc/**`.
+- Админка на GitHub Pages: `admin/index.html` + `admin/static.js` (вход по fine-grained токену GitHub с правом Contents: Read and write на этот репозиторий, правит `data/content.json` и `uploads/` через GitHub API). UI общий с PHP-админкой: `admin/admin.js`. Ссылка «Вход для администратора» в подвале сайта. `admin/index.php` нужен только для PHP-хостинга (Beget).
 
 ## Где что живёт
 - GitHub: abdurahmanovzelimhan627-prog/nashe-budushee, ветка main.
@@ -34,5 +35,3 @@
 4. Реквизиты ИП/ООО в `privacy.html`, `consent.html`, `ads-consent.html`, когда появятся.
 5. Фото нового специалиста, добавленного через админку на хостинге, обработать так же, если видны волосы.
 
-## Идея на будущее
-Админка без сервера: страница /admin/ на GitHub Pages, правит data/content.json через GitHub API (токен), сборка index.html из index.php через GitHub Actions. Пока не сделано, правки вносит Claude.

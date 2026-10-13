@@ -146,7 +146,7 @@
     if (!t) return Promise.reject(fail('Вставьте ключ доступа.'));
     token = t;
     return gh('').then(function (repo) {
-      if (!repo.permissions || !repo.permissions.push) { token = ''; throw fail('У этого ключа нет права менять сайт.'); }
+      if (repo.permissions && !repo.permissions.push) { token = ''; throw fail('У этого ключа нет права менять сайт.'); }
       try { localStorage.setItem(KEY, t); } catch (e) { /* без запоминания тоже работает до закрытия вкладки */ }
       return { ok: true };
     }).catch(function (e) { token = ''; throw e; });
