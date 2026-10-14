@@ -1,0 +1,12 @@
+# Что НЕ публиковать на сайте GitHub Pages: служебные файлы остаются только в репозитории.
+exclude:
+  - CLAUDE.md
+  - ДЕПЛОЙ.md
+  - ИНСТРУКЦИЯ.md
+  - inc
+  - data
+  - admin/index.php
+  - index.php
+  - .github
+  - деплой
+  - скриншоты

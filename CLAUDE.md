@@ -18,10 +18,11 @@
 ## Где что живёт
 - GitHub: abdurahmanovzelimhan627-prog/nashe-budushee, ветка main.
 - Основной адрес сайта-визитки: https://nashe-budushee.com (GitHub Pages, бесплатно, https работает). Старая ссылка github.io редиректит сюда.
-- Домен nashe-budushee.com куплен 12.10.2026 в Beget на Тамагова Адама, 1 год (1 490 ₽), автопродление ВЫКЛЮЧЕНО: продлить до октября 2027. DNS ведётся в Beget (4 записи A на GitHub, www CNAME на abdurahmanovzelimhan627-prog.github.io).
+- Домен nashe-budushee.com куплен 12.10.2026 в Beget на владельца аккаунта Beget (имя в публичных файлах не указываем, в WHOIS скрыто через Private Person), 1 год (1 490 ₽), автопродление ВЫКЛЮЧЕНО: продлить до октября 2027. DNS ведётся в Beget (4 записи A на GitHub, www CNAME на abdurahmanovzelimhan627-prog.github.io).
 - Рабочий сайт: Beget, тариф Blog, `http://tamago5x.beget.tech` (папка `tamago5x.beget.tech/public_html`). https на техническом адресе невозможен, нужен свой домен.
 
 ## Правила, которые нельзя нарушать
+- Не упоминать на сайте WhatsApp, Instagram, Facebook и их логотипы (продукты Meta, организация признана экстремистской в РФ; упоминание требует специальной оговорки). Кнопки «Написать» ведут на wa.me, но выглядят нейтрально (значок чата, зелёный кружок).
 - В архивы для хостинга не класть `data/config.php`, `data/login.json`, `data/backups/`, а также не перезаписывать `data/content.json` и `uploads/` на хостинге: там правки владельца из админки, новее, чем в git.
 - Пароль админки в чат не просить и не сохранять.
 - Данные владельца домена (паспорт и т. п.) вводит и подтверждает он сам.

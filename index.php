@@ -40,7 +40,6 @@ $schema = [
     'telephone' => $tel,
     'address' => ['@type' => 'PostalAddress', 'streetAddress' => $address, 'addressCountry' => 'RU'],
     'openingHours' => $hours,
-    'sameAs' => $insta ? ['https://instagram.com/' . $insta] : [],
 ];
 $jsonFlags = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP;
 ?>
@@ -67,6 +66,8 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FAFCFF">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231D49B8'/%3E%3Cpath d='M12 4l2 5.400 5.700.4-4.400 3.600 1.500 5.600L12 15.800 7.200 19l1.500-5.600L4.300 9.800l5.700-.4z' fill='%23FFC93C'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="<?= asset('assets/site.css') ?>">
@@ -98,7 +99,7 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
       <a href="#reviews">Отзывы</a>
       <a href="#faq">Вопросы</a>
       <a href="#contacts">Контакты</a>
-      <a class="btn btn-wa" href="<?= e($waHello) ?>" target="_blank" rel="noopener"><?= icon('wa', 'fill') ?>Написать в WhatsApp</a>
+      <a class="btn btn-wa" href="<?= e($waHello) ?>" target="_blank" rel="noopener"><?= icon('speech') ?>Написать нам</a>
     </div>
   </div>
 </header>
@@ -231,7 +232,7 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
       </div>
       <div class="review-cta">
         <p><strong>Хотите поделиться впечатлением?</strong>Ваш отзыв помогает другим родителям и радует наших специалистов.</p>
-        <a class="btn btn-wa" href="<?= e($waReview) ?>" target="_blank" rel="noopener"><?= icon('wa', 'fill') ?>Оставить отзыв</a>
+        <a class="btn btn-wa" href="<?= e($waReview) ?>" target="_blank" rel="noopener"><?= icon('speech') ?>Оставить отзыв</a>
       </div>
     </div>
   </section>
@@ -260,10 +261,7 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
         <h2>Запишите ребёнка на первую консультацию</h2>
         <p>Свяжитесь любым удобным способом. Подберём специалиста и время под расписание вашего ребёнка.</p>
         <ul class="contacts">
-          <li><span class="ico"><?= icon('phone') ?></span><div><small>Телефон и WhatsApp</small><a href="tel:<?= e($tel) ?>"><?= e($phone) ?></a></div></li>
-<?php if ($insta): ?>
-          <li><span class="ico"><?= icon('insta') ?></span><div><small>Instagram</small><a href="https://instagram.com/<?= e($insta) ?>" target="_blank" rel="noopener"><?= e($insta) ?></a></div></li>
-<?php endif; ?>
+          <li><span class="ico"><?= icon('phone') ?></span><div><small>Телефон</small><a href="tel:<?= e($tel) ?>"><?= e($phone) ?></a></div></li>
           <li><span class="ico"><?= icon('pin') ?></span><div><small>Адрес</small><a href="<?= e($mapUrl) ?>" target="_blank" rel="noopener"><?= e($address) ?></a></div></li>
           <li><span class="ico"><?= icon('clock') ?></span><div><small>Часы работы</small><b><?= e($hours) ?></b></div></li>
         </ul>
@@ -289,8 +287,8 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
         <div class="field"><label for="reqComment">Комментарий, если хотите</label><textarea id="reqComment" rows="3" placeholder="Возраст ребёнка, удобное время, ваш вопрос"></textarea></div>
         </fieldset>
         <p class="form-err" id="formErr" role="alert" hidden>Укажите, пожалуйста, имя и телефон.</p>
-        <a class="btn btn-wa" id="waLink" href="#contacts" target="_blank" rel="noopener"><?= icon('wa', 'fill') ?>Отправить в WhatsApp</a>
-        <p class="form-hint">Откроется WhatsApp с готовым сообщением, останется нажать «Отправить». Сайт ничего не сохраняет: ваши данные попадают только в это сообщение.</p>
+        <a class="btn btn-wa" id="waLink" href="#contacts" target="_blank" rel="noopener"><?= icon('speech') ?>Отправить заявку</a>
+        <p class="form-hint">Откроется мессенджер с готовым сообщением, останется нажать «Отправить». Можно и просто позвонить по телефону. Сайт ничего не сохраняет: ваши данные попадают только в это сообщение.</p>
       </form>
     </div>
   </section>
@@ -310,7 +308,7 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
   </div></nav>
 </footer>
 
-<a class="wa-float" href="<?= e($waHello) ?>" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><?= icon('wa', 'fill') ?><span>Написать</span></a>
+<a class="wa-float" href="<?= e($waHello) ?>" target="_blank" rel="noopener" aria-label="Написать нам"><?= icon('speech') ?><span>Написать</span></a>
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheetName">
   <button class="sheet-close" id="sheetClose" type="button" aria-label="Закрыть">&times;</button>
@@ -318,7 +316,7 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
   <div class="sheet-body">
     <strong id="sheetName"></strong>
     <span id="sheetRole"></span>
-    <a class="btn btn-wa" id="sheetWa" href="#contacts" target="_blank" rel="noopener"><?= icon('wa', 'fill') ?>Записаться к специалисту</a>
+    <a class="btn btn-wa" id="sheetWa" href="#contacts" target="_blank" rel="noopener"><?= icon('speech') ?>Записаться к специалисту</a>
   </div>
 </dialog>
 

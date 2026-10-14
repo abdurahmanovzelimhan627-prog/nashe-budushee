@@ -35,7 +35,7 @@
   $('sheetClose').addEventListener('click', function () { sheet.close(); });
   sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
 
-  // Заявка в WhatsApp
+  // Заявка в мессенджер
   var link = $('waLink'), err = $('formErr');
   function waText() {
     var lines = ['Здравствуйте! Хочу записаться в центр «Наше Будущее».'];
