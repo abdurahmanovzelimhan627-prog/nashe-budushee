@@ -15,6 +15,8 @@
 - `index.html` в корне нужен для GitHub Pages: он собирается из `index.php` командой `php index.php > index.html`. Автоматически: GitHub Action `.github/workflows/build.yml` пересобирает его при изменении `data/content.json`, `index.php`, `inc/**`.
 - Админка на GitHub Pages: `admin/index.html` + `admin/static.js` (вход по fine-grained токену GitHub с правом Contents: Read and write на этот репозиторий, правит `data/content.json` и `uploads/` через GitHub API). UI общий с PHP-админкой: `admin/admin.js`. Ссылка «Вход для администратора» в подвале сайта. `admin/index.php` нужен только для PHP-хостинга (Beget).
 
+- Лица специалистов слегка размыты и становятся чёткими по нажатию на фото. В `data/content.json` у человека поле `face` = [слева %, сверху %, ширина %, высота %] области лица на постере (найдено автоматически, YuNet). Нет поля `face` = лицо не размывается (у Шаваевой, Умаровой, Исаевой, Бошхаджиевой лица на постерах уже закрыты пятнами). Для нового специалиста нужно рассчитать `face` по постеру. Обе админки это поле сохраняют, но не редактируют.
+
 ## Где что живёт
 - GitHub: abdurahmanovzelimhan627-prog/nashe-budushee, ветка main.
 - Основной адрес сайта-визитки: https://nashe-budushee.com (GitHub Pages, бесплатно, https работает). Старая ссылка github.io редиректит сюда.

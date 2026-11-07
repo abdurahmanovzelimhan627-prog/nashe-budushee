@@ -61,7 +61,9 @@
       var id = str(p.id, 40);
       if (!/^[a-z0-9_-]{1,40}$/.test(id) || ids[id]) id = 'p' + rid();
       ids[id] = true;
-      out.people.push({ id: id, name: name, role: str(p.role, 200), exp: str(p.exp, 80), about: str(p.about, 400), photo: img(p.photo), poster: img(p.poster) });
+      var person = { id: id, name: name, role: str(p.role, 200), exp: str(p.exp, 80), about: str(p.about, 400), photo: img(p.photo), poster: img(p.poster) };
+      if (Array.isArray(p.face) && p.face.length === 4 && p.face.every(function (v) { return typeof v === 'number' && v >= 0 && v <= 100; })) person.face = p.face.slice();
+      out.people.push(person);
     });
     list(inp.services).forEach(function (s) {
       var title = str(s && s.title, 120); if (!title) return;

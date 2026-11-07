@@ -31,7 +31,7 @@ $stepColors = ['peach', 'butter', 'mint', 'lilac'];
 
 $siteData = ['wa' => phone_digits($phone), 'people' => []];
 foreach ($people as $p) {
-    $siteData['people'][$p['id']] = ['n' => $p['name'], 'r' => $p['about'] ?: $p['role'], 'p' => $p['poster'] ?? ''];
+    $siteData['people'][$p['id']] = ['n' => $p['name'], 'r' => $p['about'] ?: $p['role'], 'p' => $p['poster'] ?? '', 'f' => $p['face'] ?? null];
 }
 $schema = [
     '@context' => 'https://schema.org', '@type' => 'LocalBusiness',
@@ -143,7 +143,7 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
           <div class="dir-foot"><div class="dir-price"><?= e($s['price']) ?> <span><?= e($s['price_note']) ?></span></div>
 <?php $who = array_filter(array_map(fn($id) => $byId[$id] ?? null, $s['people'] ?? [])); ?>
 <?php if ($who): ?>
-            <div class="who"><?php foreach ($who as $p): ?><button type="button" data-person="<?= e($p['id']) ?>"><span class="face" <?= $face($p) ?>></span><?= e($p['name']) ?></button><?php endforeach; ?></div>
+            <div class="who"><?php foreach ($who as $p): ?><button type="button" data-person="<?= e($p['id']) ?>"><span class="face<?= !empty($p['face']) ? ' is-blur' : '' ?>" <?= $face($p) ?>></span><?= e($p['name']) ?></button><?php endforeach; ?></div>
 <?php endif; ?>
           </div>
         </article>
@@ -168,7 +168,7 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
       </div>
       <div class="team">
 <?php foreach ($people as $p): ?>
-        <button class="person" type="button" data-person="<?= e($p['id']) ?>"><span class="face" <?= $face($p) ?>></span><strong><?= e($p['name']) ?></strong><span><?= e($p['role']) ?></span><?php if ($p['exp']): ?><em><?= e($p['exp']) ?></em><?php endif; ?><i>Подробнее <?= icon('arrow') ?></i></button>
+        <button class="person" type="button" data-person="<?= e($p['id']) ?>"><span class="face<?= !empty($p['face']) ? ' is-blur' : '' ?>" <?= $face($p) ?>></span><strong><?= e($p['name']) ?></strong><span><?= e($p['role']) ?></span><?php if ($p['exp']): ?><em><?= e($p['exp']) ?></em><?php endif; ?><i>Подробнее <?= icon('arrow') ?></i></button>
 <?php endforeach; ?>
       </div>
     </div>
@@ -312,7 +312,10 @@ $siteBase = isset($_SERVER['HTTP_HOST'])
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheetName">
   <button class="sheet-close" id="sheetClose" type="button" aria-label="Закрыть">&times;</button>
-  <img id="sheetImg" alt="" hidden>
+  <div class="sheet-photo" id="sheetPhoto" hidden>
+    <img id="sheetImg" alt="">
+    <button class="face-veil" id="sheetVeil" type="button" aria-label="Показать лицо чётко" hidden></button>
+  </div>
   <div class="sheet-body">
     <strong id="sheetName"></strong>
     <span id="sheetRole"></span>

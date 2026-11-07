@@ -127,6 +127,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .collage-video .s1 { left: -5%; top: 70%; }
 .collage-video .s2 { right: -4%; top: 4%; }
 .face { background-size: cover; background-position: center; background-color: var(--sky); }
+/* Лица специалистов слегка размыты, чёткими становятся по нажатию на фото */
+.face.is-blur { position: relative; overflow: hidden; }
+.face.is-blur::before { content: ''; position: absolute; inset: -8px; background: inherit; filter: blur(3.6px); transition: opacity .35s ease; pointer-events: none; }
+.face.is-blur.is-clear::before { opacity: 0; }
+.person .face.is-blur { cursor: zoom-in; }
+.who .face.is-blur::before { inset: -4px; filter: blur(1.6px); }
 .collage .face { position: absolute; border: 6px solid var(--card); box-shadow: var(--shadow); animation: float 7s ease-in-out infinite; }
 .c1 { width: 60%; aspect-ratio: 1; right: 2%; top: 0; border-radius: var(--blob-a); }
 .c2 { width: 46%; aspect-ratio: 1; left: 0; top: 40%; border-radius: var(--blob-b); animation-delay: -2.3s !important; }
@@ -301,7 +307,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 dialog.sheet { width: min(460px, calc(100% - 24px)); max-height: calc(100dvh - 32px); padding: 0; border: 0; border-radius: 24px; background: var(--card); color: var(--ink); box-shadow: 0 30px 70px -20px rgba(21,36,77,.7); overflow: auto; }
 dialog.sheet::backdrop { background: rgba(21,36,77,.6); backdrop-filter: blur(4px); }
 .sheet-close { position: sticky; top: 10px; float: right; margin: 10px 10px -54px 0; z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--ink); color: #fff; font-size: 24px; line-height: 1; }
-.sheet img { width: 100%; }
+.sheet img { width: 100%; display: block; }
+.sheet-photo { position: relative; }
+.sheet-photo[hidden] { display: none; }
+.face-veil { position: absolute; padding: 0; border: 0; cursor: zoom-in; background: rgba(255,255,255,.04); -webkit-backdrop-filter: blur(3.6px); backdrop-filter: blur(3.6px); border-radius: 50%; -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); transition: opacity .35s ease; }
+.face-veil[hidden] { display: none; }
+.face-veil.is-clear { opacity: 0; pointer-events: none; }
 .sheet-body { padding: 18px 22px 22px; display: grid; gap: 12px; }
 .sheet-body strong { font-size: 22px; font-weight: 900; line-height: 1.2; }
 .sheet-body span { color: var(--ink-soft); font-size: 15.5px; }

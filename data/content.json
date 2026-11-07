@@ -18,7 +18,13 @@
             "exp": "16 лет стажа",
             "about": "Логопед-дефектолог · стаж 16 лет",
             "photo": "uploads/face_tsagaeva.jpg",
-            "poster": "uploads/poster_tsagaeva.jpg"
+            "poster": "uploads/poster_tsagaeva.jpg",
+            "face": [
+                64.3,
+                18.8,
+                22.0,
+                21.0
+            ]
         },
         {
             "id": "kadyrova",
@@ -27,7 +33,13 @@
             "exp": "11 лет стажа",
             "about": "Логопед-дефектолог · стаж 11 лет",
             "photo": "uploads/face_kadyrova.jpg",
-            "poster": "uploads/poster_kadyrova.jpg"
+            "poster": "uploads/poster_kadyrova.jpg",
+            "face": [
+                59.0,
+                17.8,
+                20.9,
+                18.2
+            ]
         },
         {
             "id": "abukhanova",
@@ -36,7 +48,13 @@
             "exp": "5 лет в АВА-терапии",
             "about": "АВА-терапист, куратор поведенческих программ · стаж в АВА-терапии 5 лет",
             "photo": "uploads/face_abukhanova.jpg",
-            "poster": "uploads/poster_abukhanova.jpg"
+            "poster": "uploads/poster_abukhanova.jpg",
+            "face": [
+                61.6,
+                27.0,
+                21.8,
+                17.9
+            ]
         },
         {
             "id": "gazieva",
@@ -45,7 +63,13 @@
             "exp": "9 лет в психологии",
             "about": "Психолог, АВА-терапист · психолог 9 лет, АВА 1,5 года",
             "photo": "uploads/face_gazieva.jpg",
-            "poster": "uploads/poster_gazieva.jpg"
+            "poster": "uploads/poster_gazieva.jpg",
+            "face": [
+                59.8,
+                21.3,
+                20.5,
+                17.5
+            ]
         },
         {
             "id": "irizieva",
@@ -54,7 +78,13 @@
             "exp": "15 лет общего стажа",
             "about": "Остеопат, массажист, телесно-ориентированный терапевт-психолог · общий стаж 15 лет, в остеопатии 4 года",
             "photo": "uploads/face_irizieva.jpg",
-            "poster": "uploads/poster_irizieva.jpg"
+            "poster": "uploads/poster_irizieva.jpg",
+            "face": [
+                63.2,
+                15.4,
+                23.3,
+                19.1
+            ]
         },
         {
             "id": "shavaeva",
@@ -72,7 +102,13 @@
             "exp": "3 года в направлении",
             "about": "Педагог-психолог, нейропсихолог · стаж в направлении 3 года",
             "photo": "uploads/face_abdueva.jpg",
-            "poster": "uploads/poster_abdueva.jpg"
+            "poster": "uploads/poster_abdueva.jpg",
+            "face": [
+                62.2,
+                18.6,
+                24.2,
+                20.8
+            ]
         },
         {
             "id": "dakaeva",
@@ -81,7 +117,13 @@
             "exp": "2 года в психологии",
             "about": "Педагог-психолог, нейропсихолог · психолог 2 года, нейропсихолог 1 год",
             "photo": "uploads/face_dakaeva.jpg",
-            "poster": "uploads/poster_dakaeva.jpg"
+            "poster": "uploads/poster_dakaeva.jpg",
+            "face": [
+                61.5,
+                20.4,
+                23.1,
+                20.0
+            ]
         },
         {
             "id": "umarova",

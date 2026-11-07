@@ -20,18 +20,25 @@
   // Карточка специалиста
   var sheet = $('sheet');
   document.addEventListener('click', function (e) {
+    // Фото в карточке слегка размыто: первое нажатие на само фото открывает его чётко
+    var fc = e.target.closest('.person .face.is-blur');
+    if (fc && !fc.classList.contains('is-clear')) { fc.classList.add('is-clear'); return; }
     var b = e.target.closest('[data-person]');
     if (!b) return;
     var p = SITE.people[b.dataset.person];
     if (!p) return;
-    var img = $('sheetImg');
-    img.hidden = !p.p;
+    var img = $('sheetImg'), veil = $('sheetVeil');
+    $('sheetPhoto').hidden = !p.p;
     if (p.p) { img.src = p.p; img.alt = p.n + '. ' + p.r; }
+    veil.classList.remove('is-clear');
+    veil.hidden = !(p.p && p.f && p.f.length === 4);
+    if (!veil.hidden) { veil.style.left = p.f[0] + '%'; veil.style.top = p.f[1] + '%'; veil.style.width = p.f[2] + '%'; veil.style.height = p.f[3] + '%'; }
     $('sheetName').textContent = p.n;
     $('sheetRole').textContent = p.r;
     $('sheetWa').href = WA + encodeURIComponent('Здравствуйте! Хочу записаться к специалисту: ' + p.n + '.');
     if (sheet.showModal) { sheet.showModal(); sheet.scrollTop = 0; } else { sheet.setAttribute('open', ''); }
   });
+  $('sheetVeil').addEventListener('click', function () { this.classList.add('is-clear'); });
   $('sheetClose').addEventListener('click', function () { sheet.close(); });
   sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
 

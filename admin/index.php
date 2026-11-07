@@ -77,6 +77,10 @@ function clean_content(array $in): array
             'role' => str_clean($p['role'] ?? '', 200), 'exp' => str_clean($p['exp'] ?? '', 80), 'about' => str_clean($p['about'] ?? '', 400),
             'photo' => img_clean($p['photo'] ?? ''), 'poster' => img_clean($p['poster'] ?? ''),
         ];
+        $f = $p['face'] ?? null;
+        if (is_array($f) && count($f) === 4 && count(array_filter($f, fn($v) => is_numeric($v) && $v >= 0 && $v <= 100)) === 4) {
+            $out['people'][count($out['people']) - 1]['face'] = array_map('floatval', array_values($f));
+        }
     }
     foreach (list_clean($in['services'] ?? []) as $s) {
         $title = str_clean($s['title'] ?? '', 120);
